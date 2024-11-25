@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tic-Tac-Toe Game</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  
+  <div id="settings">
+    <div id="theme-toggle">
+      <button id="toggleTheme">Switch to Dark Theme</button>
+    </div>
+    <div id="tournamentSettings">
+      <label for="winMode">Choose win mode: </label>
+      <select id="winMode">
+        <option value="1">1 win</option>
+        <option value="3">3 wins</option>
+        <option value="5">5 wins</option>
+      </select>
+    </div>
+    <label for="boardSize">Choose board size: </label>
+    <select id="boardSize">
+      <option value="3">3x3</option>
+      <option value="4">4x4</option>
+      <option value="5">5x5</option>
+    </select>
+    <div id="aiLevelSettings">
+      <button data-level="random" class="active" onclick="setAILevel('random')">Random AI</button>
+      <button data-level="hard" onclick="setAILevel('hard')">Hard AI</button>
+  </div>
+    <div id="scoreSection">
+      <p>Player 1 Wins: <span id="player1Wins">0</span></p>
+      <p>Player 2 Wins: <span id="player2Wins">0</span></p>
+    </div>
+    
+    <div>
+      <label for="tournamentModeToggle">Tournament Mode</label>
+      <input type="checkbox" id="tournamentModeToggle" />
+    </div>
+    <div id="currentPlayerDisplay"></div>
+  </div>
+  <div id="tic-tac-toe-board"></div>
+  <div id="gameMessage" class="game-message"></div>
+  <button id="resetButton">Reset Game</button> 
+
+  <div id="tournamentResultModal" class="modal">
+    <div class="modal-content">
+      <h2>Турнир завершен!</h2>
+      <p id="tournamentWinner"></p>
+      <p id="tournamentScore"></p>
+      <button onclick="closeTournamentResult()">Закрыть</button>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
