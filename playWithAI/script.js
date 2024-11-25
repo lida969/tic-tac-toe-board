@@ -145,18 +145,36 @@ boardSizeSelect.addEventListener('change', (event) => {
 
 function createBoard() {
   boardElement.innerHTML = ''; // Очищаем текущее поле
-  boardElement.style.gridTemplateColumns = `repeat(${boardSize}, 100px)`;
-  boardElement.style.gridTemplateRows = `repeat(${boardSize}, 100px)`;
+
+  // Устанавливаем адаптивные размеры сетки
+  boardElement.style.gridTemplateColumns = `repeat(${boardSize}, 1fr)`;
+  boardElement.style.gridTemplateRows = `repeat(${boardSize}, 1fr)`;
 
   gameBoard = Array(boardSize * boardSize).fill('');
+
   for (let i = 0; i < boardSize * boardSize; i++) {
     const cell = document.createElement('div');
     cell.classList.add('cell');
+
+    // Добавляем уникальный ID для каждой ячейки
     cell.id = `cell-${i + 1}`;
+    
+    // Добавляем обработчик кликов
     cell.addEventListener('click', cellClicked);
+    
+    // Добавляем ячейку в поле
     boardElement.appendChild(cell);
   }
+
+  // Адаптируем размеры ячеек
+  resizeBoard();
 }
+function resizeBoard() {
+  const boardWidth = Math.min(window.innerWidth, window.innerHeight) * 0.9; // Размер поля 90% от меньшей стороны экрана
+  boardElement.style.width = `${boardWidth}px`;
+  boardElement.style.height = `${boardWidth}px`;
+}
+window.addEventListener('resize', resizeBoard);
 
 
 function handlePlayerTurn(clickedCellIndex) {
