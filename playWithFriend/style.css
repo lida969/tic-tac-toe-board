@@ -1,4 +1,9 @@
 /* Общие стили */
+body, html {
+    overflow: auto;
+    height: 100%;
+}
+
 body {
     font-family: 'Arial', sans-serif;
     display: flex;
@@ -172,18 +177,20 @@ body.dark-theme #resetButton:hover {
 /* Медиазапросы для мобильных устройств */
 @media (max-width: 768px) {
     #tic-tac-toe-board {
+       
         --columns: 3; /* 3 колонки для экранов меньшего размера */
-        --rows: 3; /* 3 строки для экранов меньшего размера */
-        gap: 5px;/* 3 столбца для мобильных */
+         --rows: 3; /* 3 строки для экранов меньшего размера */
+         gap: 5px;
+        /* 3 столбца для мобильных */
     }
 
     .cell {
+        font-size: 2rem;
         width: 25vw; /* Размер ячеек будет зависеть от ширины экрана */
         height: 25vw;
     }
 
     #settings {
-        font-size: 2rem;
         width: 95%;
         max-width: 300px;
     }
@@ -203,14 +210,14 @@ body.dark-theme #resetButton:hover {
         --columns: 3; /* 3 колонки */
         --rows: 3;
      /* Используем 3 столбца */
-        gap: 3px;/* Используем 3 столбца */
+        gap: 3px;
     }
   
 
 .cell {
     font-size: 1.5rem;
-    width: 30vw;
-    height: 30vw;
+    width: 20vw;
+    height: 20vw;
 }
 
 #settings {
@@ -225,4 +232,34 @@ body.dark-theme #resetButton:hover {
 #resetButton {
     width: 70%;
 }
+}
+
+#aiLevelSettings {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+    justify-content: center;
+}
+
+#aiLevelSettings button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    color: #fff;
+    background-color: #333;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#aiLevelSettings button:hover {
+    background-color: #555;
+    transform: scale(1.05);
+}
+
+#aiLevelSettings button.active {
+    background-color: #4CAF50; /* Зеленый цвет для подсвеченной кнопки */
+    color: #fff;
+    font-weight: bold;
+    transform: scale(1.1); /* Увеличиваем размер активной кнопки */
 }
