@@ -3,7 +3,6 @@ body, html {
     overflow: auto;
     height: 100%;
 }
-
 body {
     font-family: 'Arial', sans-serif;
     display: flex;
@@ -28,12 +27,12 @@ body {
 #tic-tac-toe-board {
     justify-content: center;
     display: grid;
-    gap: 10px;
-    width: 90vw;
-    max-width: 500px;
-    grid-template-columns: repeat(var(--columns, 3), 1fr);
-    grid-template-rows: repeat(var(--rows, 3), 1fr);
-    aspect-ratio: 1;
+    gap: 5%;
+    width: 90vmin; /* Задаем ширину игрового поля относительно меньшей стороны экрана */
+    max-width: 500px; /* Ограничиваем максимальную ширину */
+    aspect-ratio: 1; /* Поддерживаем квадратное поле */
+    grid-template-columns: repeat(var(--columns, 3), 1fr); /* Равные столбцы */
+    grid-template-rows: repeat(var(--rows, 3), 1fr); /* Равные строки */
 }
 
 .cell {
@@ -45,11 +44,9 @@ body {
     font-size: 2rem;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    width: 20vw;
-    height: 20vw;
-    max-width: 100px;
-    max-height: 100px;
-    aspect-ratio: 1;
+    /* Убираем фиксированные размеры */
+    width: 100%;
+    height: 100%;
 }
 
 .game-message {
@@ -177,17 +174,10 @@ body.dark-theme #resetButton:hover {
 /* Медиазапросы для мобильных устройств */
 @media (max-width: 768px) {
     #tic-tac-toe-board {
-       
-        --columns: 3; /* 3 колонки для экранов меньшего размера */
-         --rows: 3; /* 3 строки для экранов меньшего размера */
-         gap: 5px;
-        /* 3 столбца для мобильных */
+        gap: 2%; /* Уменьшаем расстояние между ячейками на мобильных устройствах */
     }
-
     .cell {
-        font-size: 2rem;
-        width: 25vw; /* Размер ячеек будет зависеть от ширины экрана */
-        height: 25vw;
+        font-size: 1.8rem; /* Уменьшаем шрифт для меньших экранов */
     }
 
     #settings {
@@ -206,19 +196,13 @@ body.dark-theme #resetButton:hover {
 }
 
 @media (max-width: 480px) {
+ 
     #tic-tac-toe-board {
-        --columns: 3; /* 3 колонки */
-        --rows: 3;
-     /* Используем 3 столбца */
-        gap: 3px;
+        gap: 1%; /* Еще меньшее расстояние для самых маленьких экранов */
     }
-  
-
-.cell {
-    font-size: 1.5rem;
-    width: 20vw;
-    height: 20vw;
-}
+    .cell {
+        font-size: 1.5rem; /* Дальнейшее уменьшение шрифта */
+    }
 
 #settings {
     width: 100%;
@@ -232,34 +216,4 @@ body.dark-theme #resetButton:hover {
 #resetButton {
     width: 70%;
 }
-}
-
-#aiLevelSettings {
-    display: flex;
-    gap: 10px;
-    margin-top: 10px;
-    justify-content: center;
-}
-
-#aiLevelSettings button {
-    padding: 10px 20px;
-    font-size: 1rem;
-    color: #fff;
-    background-color: #333;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-#aiLevelSettings button:hover {
-    background-color: #555;
-    transform: scale(1.05);
-}
-
-#aiLevelSettings button.active {
-    background-color: #4CAF50; /* Зеленый цвет для подсвеченной кнопки */
-    color: #fff;
-    font-weight: bold;
-    transform: scale(1.1); /* Увеличиваем размер активной кнопки */
 }
