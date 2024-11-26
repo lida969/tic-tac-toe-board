@@ -47,7 +47,7 @@ function createBoard() {
   boardElement.style.gridTemplateRows = `repeat(${boardSize}, 1fr)`;
 
   gameBoard = Array(boardSize * boardSize).fill('');
-
+  console.log('gameBoard',  gameBoard);
   for (let i = 0; i < boardSize * boardSize; i++) {
     const cell = document.createElement('div');
     cell.classList.add('cell');
@@ -55,6 +55,7 @@ function createBoard() {
     // Добавляем уникальный ID для каждой ячейки
     cell.id = `cell-${i + 1}`;
     cell.innerText = gameBoard[i];
+    
     // Добавляем обработчик кликов
     cell.addEventListener('click', cellClicked);
     
