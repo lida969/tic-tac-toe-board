@@ -49,6 +49,10 @@ function createBoard() {
 
   //gameBoard = Array(boardSize * boardSize).fill('');
   console.log('gameBoard',  gameBoard);
+  while (gameBoard.length < boardSize * boardSize) {
+    gameBoard = Array(boardSize * boardSize).fill('');
+  }
+
   for (let i = 0; i < boardSize * boardSize; i++) {
     const cell = document.createElement('div');
     cell.classList.add('cell');
