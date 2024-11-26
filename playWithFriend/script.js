@@ -54,7 +54,7 @@ function createBoard() {
 
     // Добавляем уникальный ID для каждой ячейки
     cell.id = `cell-${i + 1}`;
-    
+    cell.innerText = gameBoard[i] || '';
     // Добавляем обработчик кликов
     cell.addEventListener('click', cellClicked);
     
