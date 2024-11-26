@@ -2,7 +2,6 @@
 
 const binId = '674597cbacd3cb34a8af10eb'; // Замените на ваш JSONBin ID
 const secretKey = 'В$2a$10$nvY3YosON8Wnawzqa98jNeTr36wahLksHTjPiGJ1kpvaN8c0KX9M.'; // Замените на ваш секретный ключ
-
 // Сохранение данных игры в JSONBin
 export const saveGame = async (gameData) => {
   try {
