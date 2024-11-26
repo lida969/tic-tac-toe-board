@@ -1,3 +1,5 @@
+import { saveGame, loadGame } from './jsonbin.js'; // Импорт функций
+
 let currentPlayer = 'Player 1';
 let gameBoard = [];
 let gameActive = true;
@@ -5,8 +7,6 @@ let player1Wins = 0;
 let player2Wins = 0;
 let winMode = 1; // Default to "first to 1 win"
 let boardSize = 3; // Default board size is 3x3
-let moveHistory = [];
-   
 
 // Получаем ссылки на элементы
 const winModeSelect = document.getElementById('winMode');
@@ -88,6 +88,8 @@ function handlePlayerTurn(clickedCellIndex) {
   currentPlayer = currentPlayer === 'Player 1' ? 'Player 2' : 'Player 1'; // Переключение игрока
 }
 
+
+
 function cellClicked(clickedCellEvent) {
   const clickedCell = clickedCellEvent.target;
   const clickedCellIndex = parseInt(clickedCell.id.replace('cell-', '')) - 1;
@@ -99,6 +101,16 @@ function cellClicked(clickedCellEvent) {
   checkForWinOrDraw();
   currentPlayer = currentPlayer === 'Player 1' ? 'Player 2' : 'Player 1';
   updateUI();
+
+  // Сохранение текущего состояния
+  saveGame({
+    gameBoard,
+    currentPlayer,
+    player1Wins,
+    player2Wins,
+    winMode,
+    boardSize,
+  });
 }
 function updateUI() {
   const cells = document.querySelectorAll('.cell');
@@ -303,18 +315,48 @@ function resetGame() {
   gameActive = true;
   updateUI(); // Обновление интерфейса
   messageElement.innerText = '';
+
+  // Сохранение текущего состояния после сброса
+  saveGame({
+    gameBoard,
+    currentPlayer,
+    player1Wins,
+    player2Wins,
+    winMode,
+    boardSize,
+  });
 }
-// Инициализация игры
-function initializeGame() {
+
+async function initializeGame() {
   winMode = 1; // Сбрасываем режим победы на "до 1 победы"
   winModeSelect.value = winMode; // Устанавливаем значение в выпадающем списке
   boardSize = 3; // Устанавливаем размер поля по умолчанию
   boardSizeSelect.value = boardSize; // Устанавливаем размер в выпадающем списке
   tournamentModeToggle.checked = false; // Выключаем режим турнира по умолчанию
+  
+  // Загружаем сохранённые данные
+  const savedGameData = await loadGame();
+  console.log('Loaded game data:', savedGameData);
+  if (savedGameData) {
+    // Восстановите данные из сохранённого состояния
+    gameBoard = savedGameData.gameBoard || Array(boardSize * boardSize).fill('');
+    currentPlayer = savedGameData.currentPlayer || 'Player 1';
+    player1Wins = savedGameData.player1Wins || 0;
+    player2Wins = savedGameData.player2Wins || 0;
+    boardSize = savedGameData.boardSize || 3;
+    winMode = savedGameData.winMode || 1;
+
+    // Обновляем интерфейс
+    winModeSelect.value = winMode;
+    boardSizeSelect.value = boardSize;
+    player1WinsElement.innerText = player1Wins;
+    player2WinsElement.innerText = player2Wins;
+  }
   toggleTournamentMode(false); 
   createBoard();
   resetGame();
   tournamentModeToggle.addEventListener('change', (e) => toggleTournamentMode(e.target.checked));
+
 }
 
 
