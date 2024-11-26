@@ -7,7 +7,6 @@ let player1Wins = 0;
 let player2Wins = 0;
 let winMode = 1; // Default to "first to 1 win"
 let boardSize = 3; // Default board size is 3x3
-
 // Получаем ссылки на элементы
 const winModeSelect = document.getElementById('winMode');
 const boardSizeSelect = document.getElementById('boardSize');
