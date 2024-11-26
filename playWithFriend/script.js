@@ -316,7 +316,7 @@ function resetGame() {
   // Устанавливаем первого игрока в зависимости от текущего значения isPlayer1Turn
   currentPlayer = isPlayer1Turn ? 'Player 1' : 'Player 2';
   
-  gameBoard.fill('');
+  //gameBoard.fill('');
   gameActive = true;
   updateUI(); // Обновление интерфейса
   messageElement.innerText = '';
