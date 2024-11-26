@@ -47,7 +47,7 @@ function createBoard() {
   boardElement.style.gridTemplateColumns = `repeat(${boardSize}, 1fr)`;
   boardElement.style.gridTemplateRows = `repeat(${boardSize}, 1fr)`;
 
-  gameBoard = Array(boardSize * boardSize).fill('');
+  //gameBoard = Array(boardSize * boardSize).fill('');
   console.log('gameBoard',  gameBoard);
   for (let i = 0; i < boardSize * boardSize; i++) {
     const cell = document.createElement('div');
