@@ -1,7 +1,9 @@
 // jsonbin.js
 
 const binId = '674597cbacd3cb34a8af10eb'; // Замените на ваш JSONBin ID
-const secretKey = 'В$2a$10$nvY3YosON8Wnawzqa98jNeTr36wahLksHTjPiGJ1kpvaN8c0KX9M.'; // Замените на ваш секретный ключ
+const secretKey = '$2a$10$nvY3YosON8Wnawzqa98jNeTr36wahLksHTjPiGJ1kpvaN8c0KX9M.';
+const encodedSecretKey = encodeURIComponent(secretKey); // Закодированный ключ
+
 // Сохранение данных игры в JSONBin
 export const saveGame = async (gameData) => {
   try {
@@ -9,7 +11,7 @@ export const saveGame = async (gameData) => {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        'X-Master-Key': secretKey,
+        'X-Master-Key': encodedSecretKey,
       },
       body: JSON.stringify(gameData),
     });
@@ -30,7 +32,7 @@ export const loadGame = async () => {
     const response = await fetch(`https://api.jsonbin.io/v3/b/${binId}/latest`, {
       method: 'GET',
       headers: {
-        'X-Master-Key': secretKey,
+        'X-Master-Key': encodedSecretKey,
       },
     });
 
