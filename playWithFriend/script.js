@@ -344,7 +344,7 @@ async function initializeGame() {
   console.log('Loaded game data:', savedGameData);
   if (savedGameData) {
     // Восстановите данные из сохранённого состояния
-    gameBoard = savedGameData.gameBoard || Array(boardSize * boardSize).fill('');
+    gameBoard = savedGameData.gameBoard //|| Array(boardSize * boardSize).fill('');
     currentPlayer = savedGameData.currentPlayer || 'Player 1';
     player1Wins = savedGameData.player1Wins || 0;
     player2Wins = savedGameData.player2Wins || 0;
