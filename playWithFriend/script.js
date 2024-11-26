@@ -30,7 +30,7 @@ resetButton.addEventListener('click', () => {
   player2Wins = 0;
   player1WinsElement.innerText = player1Wins;
   player2WinsElement.innerText = player2Wins;
-  resetGame();
+  resetGamebutton();
 });
 // Изменение размера поля
 boardSizeSelect.addEventListener('change', (event) => {
@@ -369,6 +369,19 @@ async function initializeGame() {
   resetGame();
   tournamentModeToggle.addEventListener('change', (e) => toggleTournamentMode(e.target.checked));
 
+}
+
+function resetGamebutton() {
+  // Переключаем, кто будет делать первый ход
+  isPlayer1Turn = !isPlayer1Turn;
+
+  // Устанавливаем первого игрока в зависимости от текущего значения isPlayer1Turn
+  currentPlayer = isPlayer1Turn ? 'Player 1' : 'Player 2';
+  
+  gameBoard.fill('');
+  gameActive = true;
+  updateUI(); // Обновление интерфейса
+  messageElement.innerText = '';
 }
 
 
