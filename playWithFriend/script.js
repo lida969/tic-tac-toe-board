@@ -118,9 +118,11 @@ function cellClicked(clickedCellEvent) {
   });
 }
 function updateUI() {
-  const cells = document.querySelectorAll('.cell');
-  for (let i = 0; i < gameBoard.length; i++) {
-    cells[i].innerText = gameBoard[i];
+  const cell = document.querySelector(`#cell-${index}`);
+  if (cell) {
+    cell.innerText = value;
+  } else {
+    console.error(`Элемент с id #cell-${index} не найден.`);
   }
 
   // Обновление сообщения о текущем игроке
