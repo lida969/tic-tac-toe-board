@@ -1,6 +1,6 @@
 // jsonbin.js
 
-const binId = '674597cbacd3cb34a8af10eb'; // Замените на ваш JSONBin ID
+const binId = '6745d217e41b4d34e45af6f2'; // Замените на ваш JSONBin ID
 const secretKey = '$2a$10$.9.5T8S.ADB53ETyAsvD8uoxvYmDhwZq8dnVGogmIn0pD8abZuBNy'; // Ваш секретный ключ (не кодировать)
 
 const headers = {
