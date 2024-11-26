@@ -351,6 +351,13 @@ async function initializeGame() {
     player1WinsElement.innerText = player1Wins;
     player2WinsElement.innerText = player2Wins;
   }
+  else {
+    // Если нет сохраненных данных, инициализируем начальные значения
+    player1Wins = 0;
+    player2Wins = 0;
+    player1WinsElement.innerText = player1Wins;
+    player2WinsElement.innerText = player2Wins;
+  }
   toggleTournamentMode(false); 
   createBoard();
   resetGame();
