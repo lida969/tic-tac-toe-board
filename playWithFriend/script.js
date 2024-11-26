@@ -118,13 +118,10 @@ function cellClicked(clickedCellEvent) {
   });
 }
 function updateUI() {
-  const cell = document.querySelector(`#cell-${index}`);
-  if (cell) {
-    cell.innerText = value;
-  } else {
-    console.error(`Элемент с id #cell-${index} не найден.`);
+ const cells = document.querySelectorAll('.cell');
+  for (let i = 0; i < gameBoard.length; i++) {
+    cells[i].innerText = gameBoard[i];
   }
-
   // Обновление сообщения о текущем игроке
   const currentPlayerDisplay = document.getElementById('currentPlayerDisplay');
   currentPlayerDisplay.innerText = `Current Player: ${currentPlayer}`;
