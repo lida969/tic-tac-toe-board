@@ -40,6 +40,7 @@ boardSizeSelect.addEventListener('change', (event) => {
 });
 
 function createBoard() {
+  console.log('createBoard вызвана');
   boardElement.innerHTML = ''; // Очищаем текущее поле
 
   // Устанавливаем адаптивные размеры сетки
