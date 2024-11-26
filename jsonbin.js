@@ -1,11 +1,11 @@
 // jsonbin.js
 
 const binId = '6745d217e41b4d34e45af6f2'; // Замените на ваш JSONBin ID
-const secretKey = '$2a$10$.9.5T8S.ADB53ETyAsvD8uoxvYmDhwZq8dnVGogmIn0pD8abZuBNy'; // Ваш секретный ключ (не кодировать)
+const secretKey = '$2a$10$Xj8xmhXt3sGHC6N8xdo3E.F.Xk.BZpSOOo.FDAwNg8GVGbwKX3Xa6'; // Ваш секретный ключ (не кодировать)
 
 const headers = {
   'Content-Type': 'application/json',
-  'X-Access-Key': secretKey, // Используйте ключ без кодирования
+  'X-Master-Key': secretKey, // Используйте ключ без кодирования
 };
 
 // Сохранение данных игры в JSONBin
