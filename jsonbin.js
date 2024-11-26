@@ -5,7 +5,7 @@ const secretKey = '$2a$10$.9.5T8S.ADB53ETyAsvD8uoxvYmDhwZq8dnVGogmIn0pD8abZuBNy'
 
 const headers = {
   'Content-Type': 'application/json',
-  'X-Master-Key': secretKey, // Используйте ключ без кодирования
+  'X-Access-Key': secretKey, // Используйте ключ без кодирования
 };
 
 // Сохранение данных игры в JSONBin
