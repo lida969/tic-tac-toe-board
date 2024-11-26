@@ -1,4 +1,4 @@
-import { saveGame, loadGame } from './jsonbin.js'; // Импорт функций
+import { saveGame, loadGame } from '../jsonbin.js'; // Импорт функций
 
 let currentPlayer = 'Player 1';
 let gameBoard = [];
