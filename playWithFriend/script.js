@@ -115,6 +115,7 @@ function cellClicked(clickedCellEvent) {
     player2Wins,
     winMode,
     boardSize,
+    isTournamentMode: tournamentModeToggle.checked,
   });
 }
 function updateUI() {
@@ -287,8 +288,8 @@ function toggleTournamentMode(isTournamentMode) {
     // Показать настройки турнира и счётчики
     scoreElements.style.display = 'block';
     tournamentSettings.style.display = 'block';
-    player1Wins = 0;
-    player2Wins = 0;
+    player1Wins = savedGameData.player1Wins //|| 0;
+    player2Wins = savedGameData.player2Wins //|| 0;
     player1WinsElement.innerText = player1Wins;
     player2WinsElement.innerText = player2Wins;
   } else {
@@ -314,7 +315,7 @@ function toggleTournamentMode(isTournamentMode) {
     player2Wins,
     winMode,
     boardSize,
-    isTournamentMode,
+    isTournamentMode: tournamentModeToggle.checked,
   });
 }
 function resetGame() {
