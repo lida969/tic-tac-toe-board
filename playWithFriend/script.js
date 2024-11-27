@@ -373,10 +373,10 @@ function toggleTournamentMode(isTournamentMode) {
 }
 function resetGame() {
   // Переключаем, кто будет делать первый ход
-  isPlayer1Turn = !isPlayer1Turn;
+  //isPlayer1Turn = !isPlayer1Turn;
 
   // Устанавливаем первого игрока в зависимости от текущего значения isPlayer1Turn
-  currentPlayer =  savedGameData.currentPlayer || 'Player 1';
+ // currentPlayer =  savedGameData.currentPlayer || 'Player 1';
   
   //gameBoard.fill('');
   gameActive = true;
