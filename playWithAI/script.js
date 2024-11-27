@@ -50,15 +50,28 @@ boardSizeSelect.addEventListener('change', (event) => {
   resetGamebutton();
 });
 
+const randomAIButton = document.getElementById('randomAIButton');
+const hardAIButton = document.getElementById('hardAIButton');
+
+// Добавляем обработчики событий
+randomAIButton.addEventListener('click', () => setAILevel('random')); // Вызываем setAILevel при клике на randomAIButton
+hardAIButton.addEventListener('click', () => setAILevel('hard'));   // Вызываем setAILevel при клике на hardAIButton
+
 function setAILevel(level) {
-  aiLevel = level;
+  aiLevel = level; // Сохраняем уровень ИИ
   resetGamebutton(); // Сбрасываем игру при смене уровня
 
   // Обновляем подсветку кнопок
-  const buttons = document.querySelectorAll('#aiLevelSettings button');
-  buttons.forEach(button => button.classList.remove('active')); // Убираем подсветку со всех кнопок
-  document.querySelector(`#aiLevelSettings button[data-level="${level}"]`).classList.add('active'); // Подсвечиваем выбранную
+  randomAIButton.classList.remove('active');
+  hardAIButton.classList.remove('active');
+
+  if (level === 'random') {
+    randomAIButton.classList.add('active'); // Подсвечиваем кнопку случайного уровня
+  } else if (level === 'hard') {
+    hardAIButton.classList.add('active'); // Подсвечиваем кнопку сложного уровня
+  }
 }
+
 
 function makeAIMove() {
     if (!gameActive || currentPlayer !== 'Player 2') return;
