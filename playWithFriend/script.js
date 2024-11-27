@@ -72,7 +72,6 @@ function createBoard() {
   resizeBoard();
 }
 function resizeBoard() {
-  gameBoard.fill('');
   const boardWidth = Math.min(window.innerWidth, window.innerHeight) * 0.9; // Размер поля 90% от меньшей стороны экрана
   boardElement.style.width = `${boardWidth}px`;
   boardElement.style.height = `${boardWidth}px`;
@@ -119,9 +118,8 @@ function cellClicked(clickedCellEvent) {
   });
 }
 function updateUI() {
- gameBoard = Array(boardSize * boardSize).fill('')
  const cells = document.querySelectorAll('.cell');
-  for (let i = 0; i < gameBoard.length; i++) {
+  for (let i = 0; i < boardSize * boardSize; i++) {
     cells[i].innerText = gameBoard[i];
   }
   // Обновление сообщения о текущем игроке
