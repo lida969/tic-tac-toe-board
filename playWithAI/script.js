@@ -426,6 +426,10 @@ function announceDraw() {
   });
 }
 
+tournamentModeToggle.addEventListener('change', (event) => {
+  toggleTournamentMode(event.target.checked);
+});
+
 function toggleTournamentMode(isTournamentMode) {
   const scoreElements = document.getElementById('scoreSection');
   const tournamentSettings = document.getElementById('tournamentSettings');
@@ -533,6 +537,9 @@ function resetGamebutton() {
   const isTournamentMode = tournamentModeToggle.checked;
   createBoard(); // Пересоздайте игровое поле
   updateUI(); 
+  if (currentPlayer === 'Player 2') {
+    setTimeout(makeAIMove, 500);
+  }
   saveGame({
     gameBoard,
     currentPlayer,
