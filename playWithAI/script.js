@@ -548,8 +548,7 @@ function resetGamebutton() {
     player1WinsElement.innerText = player1Wins;
     player2WinsElement.innerText = player2Wins;
    }
-
-
+}
 // Переключение темы
 toggleThemeButton.addEventListener('click', () => {
   document.body.classList.toggle('dark-theme');
