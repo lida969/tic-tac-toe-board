@@ -294,10 +294,10 @@ function toggleTournamentMode(isTournamentMode, savedGameData || {}) {
     // Показать настройки турнира и счётчики
     scoreElements.style.display = 'block';
     tournamentSettings.style.display = 'block';
-    player1Wins = savedGameData.player1Wins || 0;
-    player2Wins = savedGameData.player2Wins || 0;
-    player1WinsElement.innerText = player1Wins;
-    player2WinsElement.innerText = player2Wins;
+    //player1Wins = savedGameData.player1Wins || 0;
+    //player2Wins = savedGameData.player2Wins || 0;
+    //player1WinsElement.innerText = player1Wins;
+    //player2WinsElement.innerText = player2Wins;
   } else {
     // Скрыть настройки турнира и счётчики
     scoreElements.style.display = 'none';
