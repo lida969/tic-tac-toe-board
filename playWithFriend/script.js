@@ -380,7 +380,7 @@ function resetGamebutton() {
   
   gameBoard.fill('');
   gameActive = true;
-  updateUI(); // Обновление интерфейса
+ // updateUI(); // Обновление интерфейса
   messageElement.innerText = '';
 }
 
