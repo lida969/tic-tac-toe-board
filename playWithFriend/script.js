@@ -286,7 +286,7 @@ tournamentModeToggle.addEventListener('change', (event) => {
 });
 
 
-function toggleTournamentMode(isTournamentMode, savedGameData || {}) {
+function toggleTournamentMode(isTournamentMode) {
   const scoreElements = document.getElementById('scoreSection');
   const tournamentSettings = document.getElementById('tournamentSettings');
 
@@ -374,7 +374,7 @@ async function initializeGame() {
     boardSizeSelect.value = boardSize;
     player1WinsElement.innerText = player1Wins;
     player2WinsElement.innerText = player2Wins;
-    toggleTournamentMode(isTournamentMode, savedGameData);
+    toggleTournamentMode(isTournamentMode);
   }
   else {
     // Если нет сохраненных данных, инициализируем начальные значения
