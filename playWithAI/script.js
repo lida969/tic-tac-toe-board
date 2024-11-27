@@ -377,10 +377,9 @@ function showTournamentResult(winner) {
 
     // Показываем модальное окно
     document.getElementById('tournamentResultModal').style.display = 'flex';
-  }
-  else {
+  } else {
     setTimeout(() => resetGamebutton(), 2000);
-  };
+  }
   const closeModalButton = document.getElementById('closeModalButton');
   if (closeModalButton) {
         closeModalButton.addEventListener('click', closeTournamentResult);
