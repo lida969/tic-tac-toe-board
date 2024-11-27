@@ -119,6 +119,7 @@ function cellClicked(clickedCellEvent) {
   });
 }
 function updateUI() {
+ gameBoard = Array(boardSize * boardSize).fill('')
  const cells = document.querySelectorAll('.cell');
   for (let i = 0; i < gameBoard.length; i++) {
     cells[i].innerText = gameBoard[i];
