@@ -371,18 +371,16 @@ async function initializeGame() {
 }
 
 function resetGamebutton() {
-  // Переключаем, кто будет делать первый ход
   isPlayer1Turn = !isPlayer1Turn;
-
-  // Устанавливаем первого игрока в зависимости от текущего значения isPlayer1Turn
   currentPlayer = isPlayer1Turn ? 'Player 1' : 'Player 2';
   
-  gameBoard.fill('');
+  gameBoard = Array(boardSize * boardSize).fill('');
   gameActive = true;
- // updateUI(); // Обновление интерфейса
   messageElement.innerText = '';
-  updateUI();
+  
+  createBoard(); // Пересоздайте игровое поле
 }
+
 
 
 // Переключение темы
