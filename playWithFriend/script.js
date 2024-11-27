@@ -19,9 +19,7 @@ const toggleThemeButton = document.getElementById('toggleTheme');
 const tournamentModeToggle = document.getElementById('tournamentModeToggle');
 const boardElement = document.getElementById('tic-tac-toe-board');
 let isPlayer1Turn = true; // Переменная для отслеживания первого хода (по умолчанию игрок 1)
-if (closeModalButton) {
-        closeModalButton.addEventListener('click', closeTournamentResult);
-    }
+
 // Выбор режима победы
 winModeSelect.addEventListener('change', (event) => {
   winMode = parseInt(event.target.value);
@@ -248,8 +246,8 @@ function announceWinner(player) {
   } else {
     setTimeout(resetGamebutton, 2000); // Сброс игры через 2 секунды
   };
-  }
 }
+
 
 function showTournamentResult(winner) {
   // Обновляем текст в модальном окне
@@ -269,29 +267,32 @@ function showTournamentResult(winner) {
     setTimeout(() => resetGamebutton(), 2000);
   
   }
+  if (closeModalButton) {
+        closeModalButton.addEventListener('click', closeTournamentResult);
+  }
 }
 
-//function closeTournamentResult() {
+function closeTournamentResult() {
   // Закрываем модальное окно
- // document.getElementById('tournamentResultModal').style.display = 'none';
+  document.getElementById('tournamentResultModal').style.display = 'none';
 
-  // Сбрасываем игру и счетчики
-//  player1Wins = 0;
-//  player2Wins = 0;
-//  player1WinsElement.innerText = player1Wins;
-//  player2WinsElement.innerText = player2Wins;
+   //Сбрасываем игру и счетчики
+  player1Wins = 0;
+  player2Wins = 0;
+  player1WinsElement.innerText = player1Wins;
+  player2WinsElement.innerText = player2Wins;
 
-//  resetGamebutton(); // Сброс игры для новой серии
-//  saveGame({
- //   gameBoard,
-  //  currentPlayer,
- //   player1Wins,
- //   player2Wins,
- //   winMode,
-  //  boardSize,
- //   isTournamentMode: tournamentModeToggle.checked,
-//  });
-//}
+  resetGamebutton(); // Сброс игры для новой серии
+  saveGame({
+   gameBoard,
+   currentPlayer,
+   player1Wins,
+   player2Wins,
+   winMode,
+   boardSize,
+   isTournamentMode: tournamentModeToggle.checked,
+  });
+}
 
 // Объявление ничьей
 // Объявление ничьей
