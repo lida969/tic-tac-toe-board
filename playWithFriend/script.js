@@ -72,6 +72,7 @@ function createBoard() {
   resizeBoard();
 }
 function resizeBoard() {
+  gameBoard.fill('');
   const boardWidth = Math.min(window.innerWidth, window.innerHeight) * 0.9; // Размер поля 90% от меньшей стороны экрана
   boardElement.style.width = `${boardWidth}px`;
   boardElement.style.height = `${boardWidth}px`;
