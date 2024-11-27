@@ -21,7 +21,7 @@ const boardElement = document.getElementById('tic-tac-toe-board');
 let isPlayer1Turn = true; // Переменная для отслеживания первого хода (по умолчанию игрок 1)
 
 let aiLevel = "random"; // Уровень ИИ: random, hard (Minimax)
-document.getElementById('closeModalButton').addEventListener('click', closeTournamentResult);
+
 
 function setAILevel(level) {
   aiLevel = level;
