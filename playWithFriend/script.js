@@ -23,6 +23,10 @@ let isPlayer1Turn = true; // Переменная для отслеживани�
 // Выбор режима победы
 winModeSelect.addEventListener('change', (event) => {
   winMode = parseInt(event.target.value);
+  player1Wins = 0;
+  player2Wins = 0;
+  player1WinsElement.innerText = player1Wins;
+  player2WinsElement.innerText = player2Wins;
   resetGamebutton(); // Сбрасываем игру при изменении режима побед
 });
 // Кнопка "Reset"
@@ -36,6 +40,10 @@ resetButton.addEventListener('click', () => {
 // Изменение размера поля
 boardSizeSelect.addEventListener('change', (event) => {
   boardSize = parseInt(event.target.value);
+  player1Wins = 0;
+  player2Wins = 0;
+  player1WinsElement.innerText = player1Wins;
+  player2WinsElement.innerText = player2Wins;
   createBoard();
   resetGamebutton();
 });
