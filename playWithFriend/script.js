@@ -307,6 +307,15 @@ function toggleTournamentMode(isTournamentMode) {
     winMode = 1;
     winModeSelect.value = winMode;
   }
+   saveGame({
+    gameBoard,
+    currentPlayer,
+    player1Wins,
+    player2Wins,
+    winMode,
+    boardSize,
+    isTournamentMode,
+  });
 }
 function resetGame() {
   // Переключаем, кто будет делать первый ход
@@ -328,6 +337,7 @@ function resetGame() {
     player2Wins,
     winMode,
     boardSize,
+    isTournamentMode: tournamentModeToggle.checked,
   });
 }
 
@@ -349,12 +359,14 @@ async function initializeGame() {
     player2Wins = savedGameData.player2Wins //|| 0;
     boardSize = savedGameData.boardSize || 3;
     winMode = savedGameData.winMode || 1;
-
+    const isTournamentMode = savedGameData.isTournamentMode || false;
+    tournamentModeToggle.checked = isTournamentMode;
     // Обновляем интерфейс
     winModeSelect.value = winMode;
     boardSizeSelect.value = boardSize;
     player1WinsElement.innerText = player1Wins;
     player2WinsElement.innerText = player2Wins;
+    toggleTournamentMode(isTournamentMode);
   }
   else {
     // Если нет сохраненных данных, инициализируем начальные значения
@@ -362,12 +374,12 @@ async function initializeGame() {
     player2Wins = 0;
     player1WinsElement.innerText = player1Wins;
     player2WinsElement.innerText = player2Wins;
+    toggleTournamentMode(false);
+    gameBoard = Array(boardSize * boardSize).fill('');
   }
-  toggleTournamentMode(false); 
+
   createBoard();
   resetGame();
-  tournamentModeToggle.addEventListener('change', (e) => toggleTournamentMode(e.target.checked));
-
 }
 
 function resetGamebutton() {
