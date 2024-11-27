@@ -443,7 +443,7 @@ function resetGamebutton() {
   gameBoard = Array(boardSize * boardSize).fill('');
   gameActive = true;
   messageElement.innerText = '';
-  
+  const isTournamentMode = tournamentModeToggle.checked;
   createBoard(); // Пересоздайте игровое поле
   updateUI(); 
   saveGame({
