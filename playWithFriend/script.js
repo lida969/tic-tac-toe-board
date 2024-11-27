@@ -379,6 +379,7 @@ function resetGamebutton() {
   messageElement.innerText = '';
   
   createBoard(); // Пересоздайте игровое поле
+  updateUI(); 
 }
 
 
