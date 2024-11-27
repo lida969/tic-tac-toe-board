@@ -381,6 +381,7 @@ function resetGamebutton() {
   gameActive = true;
  // updateUI(); // Обновление интерфейса
   messageElement.innerText = '';
+  updateUI();
 }
 
 
