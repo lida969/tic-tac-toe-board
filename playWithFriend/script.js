@@ -373,7 +373,7 @@ async function initializeGame() {
     boardSizeSelect.value = boardSize;
     player1WinsElement.innerText = player1Wins;
     player2WinsElement.innerText = player2Wins;
-    toggleTournamentMode(isTournamentMode);
+    toggleTournamentMode(isTournamentMode, savedGameData);
   }
   else {
     // Если нет сохраненных данных, инициализируем начальные значения
