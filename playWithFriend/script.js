@@ -245,6 +245,15 @@ function announceWinner(player) {
     gameActive = false;
   } else {
     setTimeout(resetGamebutton, 2000); // Сброс игры через 2 секунды
+    saveGame({
+    gameBoard,
+    currentPlayer,
+    player1Wins,
+    player2Wins,
+    winMode,
+    boardSize,
+    isTournamentMode: tournamentModeToggle.checked,
+  });
   }
 }
 
@@ -264,21 +273,39 @@ function showTournamentResult(winner) {
   }
   else {
     setTimeout(() => resetGamebutton(), 2000);
+    saveGame({
+    gameBoard,
+    currentPlayer,
+    player1Wins,
+    player2Wins,
+    winMode,
+    boardSize,
+    isTournamentMode: tournamentModeToggle.checked,
+  });
   }
 }
 
-function closeTournamentResult() {
+//function closeTournamentResult() {
   // Закрываем модальное окно
-  document.getElementById('tournamentResultModal').style.display = 'none';
+ // document.getElementById('tournamentResultModal').style.display = 'none';
 
   // Сбрасываем игру и счетчики
-  player1Wins = 0;
-  player2Wins = 0;
-  player1WinsElement.innerText = player1Wins;
-  player2WinsElement.innerText = player2Wins;
+//  player1Wins = 0;
+//  player2Wins = 0;
+//  player1WinsElement.innerText = player1Wins;
+//  player2WinsElement.innerText = player2Wins;
 
-  resetGamebutton(); // Сброс игры для новой серии
-}
+//  resetGamebutton(); // Сброс игры для новой серии
+//  saveGame({
+ //   gameBoard,
+  //  currentPlayer,
+ //   player1Wins,
+ //   player2Wins,
+ //   winMode,
+  //  boardSize,
+ //   isTournamentMode: tournamentModeToggle.checked,
+//  });
+//}
 
 // Объявление ничьей
 // Объявление ничьей
@@ -287,6 +314,15 @@ function announceDraw() {
   gameActive = false;
 
   setTimeout(() => resetGamebutton(), 2000);
+  saveGame({
+    gameBoard,
+    currentPlayer,
+    player1Wins,
+    player2Wins,
+    winMode,
+    boardSize,
+    isTournamentMode: tournamentModeToggle.checked,
+  });
 }
 
 tournamentModeToggle.addEventListener('change', (event) => {
