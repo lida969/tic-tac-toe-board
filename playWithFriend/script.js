@@ -280,6 +280,11 @@ function announceDraw() {
   setTimeout(() => resetGamebutton(), 2000);
 }
 
+tournamentModeToggle.addEventListener('change', (event) => {
+  toggleTournamentMode(event.target.checked);
+});
+
+
 function toggleTournamentMode(isTournamentMode) {
   const scoreElements = document.getElementById('scoreSection');
   const tournamentSettings = document.getElementById('tournamentSettings');
@@ -288,8 +293,8 @@ function toggleTournamentMode(isTournamentMode) {
     // Показать настройки турнира и счётчики
     scoreElements.style.display = 'block';
     tournamentSettings.style.display = 'block';
-    player1Wins = savedGameData.player1Wins //|| 0;
-    player2Wins = savedGameData.player2Wins //|| 0;
+    player1Wins = savedGameData.player1Wins || 0;
+    player2Wins = savedGameData.player2Wins || 0;
     player1WinsElement.innerText = player1Wins;
     player2WinsElement.innerText = player2Wins;
   } else {
