@@ -484,7 +484,7 @@ function resetGame() {
   });
 }
 // Инициализация игры
-function initializeGame() {
+async function initializeGame() {
   winMode = 1; // Сбрасываем режим победы на "до 1 победы"
   winModeSelect.value = winMode; // Устанавливаем значение в выпадающем списке
   boardSize = 3; // Устанавливаем размер поля по умолчанию
