@@ -359,6 +359,7 @@ function toggleTournamentMode(isTournamentMode) {
     winMode = 1;
     winModeSelect.value = winMode;
   }
+  
   createBoard()
   saveGame({
     gameBoard,
@@ -445,6 +446,15 @@ function resetGamebutton() {
   
   createBoard(); // Пересоздайте игровое поле
   updateUI(); 
+  saveGame({
+    gameBoard,
+    currentPlayer,
+    player1Wins,
+    player2Wins,
+    winMode,
+    boardSize,
+    isTournamentMode: tournamentModeToggle.checked,
+  });
 }
 
 
