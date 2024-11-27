@@ -19,7 +19,7 @@ const toggleThemeButton = document.getElementById('toggleTheme');
 const tournamentModeToggle = document.getElementById('tournamentModeToggle');
 const boardElement = document.getElementById('tic-tac-toe-board');
 let isPlayer1Turn = true; // Переменная для отслеживания первого хода (по умолчанию игрок 1)
-
+document.getElementById('closeModalButton').addEventListener('click', closeTournamentResult);
 // Выбор режима победы
 winModeSelect.addEventListener('change', (event) => {
   winMode = parseInt(event.target.value);
