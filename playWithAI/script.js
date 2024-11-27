@@ -563,3 +563,5 @@ toggleThemeButton.addEventListener('click', () => {
 
 
 initializeGame();
+window.setAILevel = setAILevel;
+
