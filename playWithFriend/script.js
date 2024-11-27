@@ -267,6 +267,7 @@ function showTournamentResult(winner) {
     setTimeout(() => resetGamebutton(), 2000);
   
   }
+  const closeModalButton = document.getElementById('closeModalButton');
   if (closeModalButton) {
         closeModalButton.addEventListener('click', closeTournamentResult);
   }
