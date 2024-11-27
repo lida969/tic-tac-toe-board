@@ -313,7 +313,8 @@ function toggleTournamentMode(isTournamentMode) {
     winMode = 1;
     winModeSelect.value = winMode;
   }
-   saveGame({
+  createBoard()
+  saveGame({
     gameBoard,
     currentPlayer,
     player1Wins,
