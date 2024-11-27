@@ -253,7 +253,7 @@ function showTournamentResult(winner) {
     document.getElementById('tournamentResultModal').style.display = 'flex';
   }
   else {
-    setTimeout(() => resetGame(), 2000);
+    setTimeout(() => resetGamebutton(), 2000);
   }
 }
 
