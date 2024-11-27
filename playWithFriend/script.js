@@ -286,7 +286,7 @@ tournamentModeToggle.addEventListener('change', (event) => {
 });
 
 
-function toggleTournamentMode(isTournamentMode, savedGameData) {
+function toggleTournamentMode(isTournamentMode, savedGameData || {}) {
   const scoreElements = document.getElementById('scoreSection');
   const tournamentSettings = document.getElementById('tournamentSettings');
 
