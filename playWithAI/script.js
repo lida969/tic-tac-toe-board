@@ -377,7 +377,7 @@ function showTournamentResult(winner) {
 
     // Показываем модальное окно
     document.getElementById('tournamentResultModal').style.display = 'flex';
-  };
+  }
   else {
     setTimeout(() => resetGamebutton(), 2000);
   };
