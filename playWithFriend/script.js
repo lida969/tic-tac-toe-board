@@ -36,7 +36,7 @@ resetButton.addEventListener('click', () => {
 boardSizeSelect.addEventListener('change', (event) => {
   boardSize = parseInt(event.target.value);
   createBoard();
-  resetGame();
+  resetGamebutton();
 });
 
 function createBoard() {
