@@ -81,7 +81,7 @@ function makeAIMove() {
         .filter(index => index !== null);
 
     if (availableCells.length === 0) return;
-
+    console.log('aiLevel',  aiLevel);
     if (aiLevel === "random") {
         // Рандомный выбор клетки
         const randomIndex = availableCells[Math.floor(Math.random() * availableCells.length)];
