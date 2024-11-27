@@ -455,6 +455,12 @@ function resetGamebutton() {
     boardSize,
     isTournamentMode: tournamentModeToggle.checked,
   });
+   if (!isTournamentMode) {
+    player1Wins = 0;
+    player2Wins = 0;
+    player1WinsElement.innerText = player1Wins;
+    player2WinsElement.innerText = player2Wins;
+   }
 }
 
 
