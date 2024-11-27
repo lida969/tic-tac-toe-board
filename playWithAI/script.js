@@ -1,3 +1,5 @@
+import { saveGame, loadGame } from '../jsonbin.js'; // Импорт функций
+
 let currentPlayer = 'Player 2';
 let gameBoard = [];
 let gameActive = true;
@@ -5,8 +7,6 @@ let player1Wins = 0;
 let player2Wins = 0;
 let winMode = 1; // Default to "first to 1 win"
 let boardSize = 3; // Default board size is 3x3
-let moveHistory = [];
-   
 
 // Получаем ссылки на элементы
 const winModeSelect = document.getElementById('winMode');
@@ -22,10 +22,37 @@ let isPlayer1Turn = true; // Переменная для отслеживани�
 
 let aiLevel = "random"; // Уровень ИИ: random, hard (Minimax)
 
+// Выбор режима победы
+winModeSelect.addEventListener('change', (event) => {
+  winMode = parseInt(event.target.value);
+  player1Wins = 0;
+  player2Wins = 0;
+  player1WinsElement.innerText = player1Wins;
+  player2WinsElement.innerText = player2Wins;
+  resetGamebutton(); // Сбрасываем игру при изменении режима побед
+});
+// Кнопка "Reset"
+resetButton.addEventListener('click', () => {
+  player1Wins = 0;
+  player2Wins = 0;
+  player1WinsElement.innerText = player1Wins;
+  player2WinsElement.innerText = player2Wins;
+  resetGamebutton();
+});
+// Изменение размера поля
+boardSizeSelect.addEventListener('change', (event) => {
+  boardSize = parseInt(event.target.value);
+  player1Wins = 0;
+  player2Wins = 0;
+  player1WinsElement.innerText = player1Wins;
+  player2WinsElement.innerText = player2Wins;
+  createBoard();
+  resetGamebutton();
+});
 
 function setAILevel(level) {
   aiLevel = level;
-  resetGame(); // Сбрасываем игру при смене уровня
+  resetGamebutton(); // Сбрасываем игру при смене уровня
 
   // Обновляем подсветку кнопок
   const buttons = document.querySelectorAll('#aiLevelSettings button');
@@ -124,25 +151,7 @@ function heuristicEvaluation(board, player) {
 
   return score;
 }
-// Выбор режима победы
-winModeSelect.addEventListener('change', (event) => {
-  winMode = parseInt(event.target.value);
-  resetGame(); // Сбрасываем игру при изменении режима побед
-});
-// Кнопка "Reset"
-resetButton.addEventListener('click', () => {
-  player1Wins = 0;
-  player2Wins = 0;
-  player1WinsElement.innerText = player1Wins;
-  player2WinsElement.innerText = player2Wins;
-  resetGame();
-});
-// Изменение размера поля
-boardSizeSelect.addEventListener('change', (event) => {
-  boardSize = parseInt(event.target.value);
-  createBoard();
-  resetGame();
-});
+
 
 function createBoard() {
   boardElement.innerHTML = ''; // Очищаем текущее поле
@@ -151,7 +160,9 @@ function createBoard() {
   boardElement.style.gridTemplateColumns = `repeat(${boardSize}, 1fr)`;
   boardElement.style.gridTemplateRows = `repeat(${boardSize}, 1fr)`;
 
-  gameBoard = Array(boardSize * boardSize).fill('');
+   while (gameBoard.length < boardSize * boardSize) {
+    gameBoard = Array(boardSize * boardSize).fill('');
+  }
 
   for (let i = 0; i < boardSize * boardSize; i++) {
     const cell = document.createElement('div');
@@ -159,7 +170,7 @@ function createBoard() {
 
     // Добавляем уникальный ID для каждой ячейки
     cell.id = `cell-${i + 1}`;
-    
+    cell.innerText = gameBoard[i];
     // Добавляем обработчик кликов
     cell.addEventListener('click', cellClicked);
     
@@ -209,10 +220,19 @@ function cellClicked(clickedCellEvent) {
     setTimeout(makeAIMove, 500);
   } 
   updateUI();
+  saveGame({
+    gameBoard,
+    currentPlayer,
+    player1Wins,
+    player2Wins,
+    winMode,
+    boardSize,
+    isTournamentMode: tournamentModeToggle.checked,
+  });
 }
 function updateUI() {
   const cells = document.querySelectorAll('.cell');
-  for (let i = 0; i < gameBoard.length; i++) {
+  for (let i = 0; i < boardSize * boardSize; i++) {
     cells[i].innerText = gameBoard[i];
   }
 
@@ -327,8 +347,21 @@ function announceWinner(player) {
     showTournamentResult(player);
     gameActive = false;
   } else {
-    setTimeout(resetGame, 2000); // Сброс игры через 2 секунды
-  }
+    setTimeout(() => {
+      resetGamebutton();
+      // Обнуляем состояние игры
+      gameBoard = Array(boardSize * boardSize).fill('');
+      saveGame({
+        gameBoard,
+        currentPlayer,
+        player1Wins,
+        player2Wins,
+        winMode,
+        boardSize,
+        isTournamentMode: tournamentModeToggle.checked,
+      });
+    }, 2000);
+  };
 }
 
 function showTournamentResult(winner) {
@@ -344,10 +377,14 @@ function showTournamentResult(winner) {
 
     // Показываем модальное окно
     document.getElementById('tournamentResultModal').style.display = 'flex';
-  }
+  };
   else {
     setTimeout(() => resetGame(), 2000);
-  }
+  };
+  const closeModalButton = document.getElementById('closeModalButton');
+  if (closeModalButton) {
+        closeModalButton.addEventListener('click', closeTournamentResult);
+  };
 }
 
 function closeTournamentResult() {
@@ -360,7 +397,16 @@ function closeTournamentResult() {
   player1WinsElement.innerText = player1Wins;
   player2WinsElement.innerText = player2Wins;
 
-  resetGame(); // Сброс игры для новой серии
+  resetGamebutton(); // Сброс игры для новой серии
+  saveGame({
+   gameBoard,
+   currentPlayer,
+   player1Wins,
+   player2Wins,
+   winMode,
+   boardSize,
+   isTournamentMode: tournamentModeToggle.checked,
+  }); // Сброс игры для новой серии
 }
 
 // Объявление ничьей
@@ -369,7 +415,16 @@ function announceDraw() {
   messageElement.innerText = 'Game Draw!';
   gameActive = false;
 
-  setTimeout(() => resetGame(), 2000);
+  setTimeout(() => resetGamebutton((), 2000);
+  saveGame({
+    gameBoard,
+    currentPlayer,
+    player1Wins,
+    player2Wins,
+    winMode,
+    boardSize,
+    isTournamentMode: tournamentModeToggle.checked,
+  });
 }
 
 function toggleTournamentMode(isTournamentMode) {
@@ -380,10 +435,7 @@ function toggleTournamentMode(isTournamentMode) {
     // Показать настройки турнира и счётчики
     scoreElements.style.display = 'block';
     tournamentSettings.style.display = 'block';
-    player1Wins = 0;
-    player2Wins = 0;
-    player1WinsElement.innerText = player1Wins;
-    player2WinsElement.innerText = player2Wins;
+    
   } else {
     // Скрыть настройки турнира и счётчики
     scoreElements.style.display = 'none';
@@ -400,21 +452,37 @@ function toggleTournamentMode(isTournamentMode) {
     winMode = 1;
     winModeSelect.value = winMode;
   }
+  createBoard()
+  saveGame({
+    gameBoard,
+    currentPlayer,
+    player1Wins,
+    player2Wins,
+    winMode,
+    boardSize,
+    isTournamentMode: tournamentModeToggle.checked,
+  });
 }
 function resetGame() {
   // Переключаем, кто будет делать первый ход
-  isPlayer1Turn = !isPlayer1Turn;
 
-  // Устанавливаем первого игрока в зависимости от текущего значения isPlayer1Turn
-  currentPlayer = isPlayer1Turn ? 'Player 1' : 'Player 2';
   
-  gameBoard.fill('');
+  //gameBoard.fill('');
   gameActive = true;
   updateUI(); // Обновление интерфейса
   messageElement.innerText = '';
   if (currentPlayer === 'Player 2') {
     setTimeout(makeAIMove, 500);
   }
+  saveGame({
+    gameBoard,
+    currentPlayer,
+    player1Wins,
+    player2Wins,
+    winMode,
+    boardSize,
+    isTournamentMode: tournamentModeToggle.checked,
+  });
 }
 // Инициализация игры
 function initializeGame() {
@@ -423,11 +491,64 @@ function initializeGame() {
   boardSize = 3; // Устанавливаем размер поля по умолчанию
   boardSizeSelect.value = boardSize; // Устанавливаем размер в выпадающем списке
   tournamentModeToggle.checked = false; // Выключаем режим турнира по умолчанию
-  toggleTournamentMode(false); 
+  const savedGameData = await loadGame();
+  console.log('Loaded game data:', savedGameData);
+  if (savedGameData) {
+    // Восстановите данные из сохранённого состояния
+    gameBoard = savedGameData.gameBoard || Array(boardSize * boardSize).fill('');
+    currentPlayer = savedGameData.currentPlayer || 'Player 1';
+    player1Wins = savedGameData.player1Wins || 0;
+    player2Wins = savedGameData.player2Wins || 0;
+    boardSize = savedGameData.boardSize || 3;
+    winMode = savedGameData.winMode || 1;
+    const isTournamentMode = savedGameData.isTournamentMode || false;
+    tournamentModeToggle.checked = isTournamentMode;
+    // Обновляем интерфейс
+    winModeSelect.value = winMode;
+    boardSizeSelect.value = boardSize;
+    player1WinsElement.innerText = player1Wins;
+    player2WinsElement.innerText = player2Wins;
+    toggleTournamentMode(isTournamentMode);
+  }
+  else {
+    // Если нет сохраненных данных, инициализируем начальные значения
+    player1Wins = 0;
+    player2Wins = 0;
+    player1WinsElement.innerText = player1Wins;
+    player2WinsElement.innerText = player2Wins;
+    toggleTournamentMode(false);
+    gameBoard = Array(boardSize * boardSize).fill('');
+  }
+
   createBoard();
   resetGame();
-  tournamentModeToggle.addEventListener('change', (e) => toggleTournamentMode(e.target.checked));
 }
+
+function resetGamebutton() {
+  isPlayer1Turn = !isPlayer1Turn;
+  currentPlayer = isPlayer1Turn ? 'Player 1' : 'Player 2';
+  
+  gameBoard = Array(boardSize * boardSize).fill('');
+  gameActive = true;
+  messageElement.innerText = '';
+  const isTournamentMode = tournamentModeToggle.checked;
+  createBoard(); // Пересоздайте игровое поле
+  updateUI(); 
+  saveGame({
+    gameBoard,
+    currentPlayer,
+    player1Wins,
+    player2Wins,
+    winMode,
+    boardSize,
+    isTournamentMode: tournamentModeToggle.checked,
+  });
+   if (!isTournamentMode) {
+    player1Wins = 0;
+    player2Wins = 0;
+    player1WinsElement.innerText = player1Wins;
+    player2WinsElement.innerText = player2Wins;
+   }
 
 
 // Переключение темы
