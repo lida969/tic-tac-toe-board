@@ -22,7 +22,7 @@ let isPlayer1Turn = true; // Переменная для отслеживани�
 // Выбор режима победы
 winModeSelect.addEventListener('change', (event) => {
   winMode = parseInt(event.target.value);
-  resetGame(); // Сбрасываем игру при изменении режима побед
+  resetGamebutton(); // Сбрасываем игру при изменении режима побед
 });
 // Кнопка "Reset"
 resetButton.addEventListener('click', () => {
@@ -234,7 +234,7 @@ function announceWinner(player) {
     showTournamentResult(player);
     gameActive = false;
   } else {
-    setTimeout(resetGame, 2000); // Сброс игры через 2 секунды
+    setTimeout(resetGamebutton, 2000); // Сброс игры через 2 секунды
   }
 }
 
@@ -267,7 +267,7 @@ function closeTournamentResult() {
   player1WinsElement.innerText = player1Wins;
   player2WinsElement.innerText = player2Wins;
 
-  resetGame(); // Сброс игры для новой серии
+  resetGamebutton(); // Сброс игры для новой серии
 }
 
 // Объявление ничьей
@@ -276,7 +276,7 @@ function announceDraw() {
   messageElement.innerText = 'Game Draw!';
   gameActive = false;
 
-  setTimeout(() => resetGame(), 2000);
+  setTimeout(() => resetGamebutton(), 2000);
 }
 
 function toggleTournamentMode(isTournamentMode) {
