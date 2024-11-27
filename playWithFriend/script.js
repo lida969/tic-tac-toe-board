@@ -245,6 +245,15 @@ function announceWinner(player) {
     gameActive = false;
   } else {
     setTimeout(resetGamebutton, 2000); // Сброс игры через 2 секунды
+    saveGame({
+    gameBoard,
+    currentPlayer,
+    player1Wins,
+    player2Wins,
+    winMode,
+    boardSize,
+    isTournamentMode: tournamentModeToggle.checked,
+  });
   };
 }
 
