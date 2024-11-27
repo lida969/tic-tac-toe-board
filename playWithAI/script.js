@@ -414,7 +414,7 @@ function announceDraw() {
   messageElement.innerText = 'Game Draw!';
   gameActive = false;
 
-  setTimeout(() => resetGamebutton((), 2000);
+  setTimeout(() => resetGamebutton(), 2000);
   saveGame({
     gameBoard,
     currentPlayer,
