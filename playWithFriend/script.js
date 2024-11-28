@@ -1,14 +1,14 @@
 import { saveGame, loadGame } from '../jsonbin.js'; // Импорт функций
 
-let currentPlayer = 'Player 1';
-let gameBoard = [];
-let gameActive = true;
-let player1Wins = 0;
-let player2Wins = 0;
-let winMode = 1; // Default to "first to 1 win"
-let boardSize = 3; // Default board size is 3x3
+let currentPlayer = 'Player 1'; // Текущий игрок
+let gameBoard = [];  // Массив для хранения состояния поля
+let gameActive = true; // Флаг для отслеживания активной игры
+let player1Wins = 0;  // Количество побед для игрока 1
+let player2Wins = 0;  // Количество побед для игрока 2
+let winMode = 1;  // Режим победы (например, до 1 победы)
+let boardSize = 3;  // Размер поля (по умолчанию 3x3)
 
-// Получаем ссылки на элементы
+// ссылки на элементы
 const winModeSelect = document.getElementById('winMode');
 const boardSizeSelect = document.getElementById('boardSize');
 const resetButton = document.getElementById('resetButton');
@@ -18,18 +18,20 @@ const player2WinsElement = document.getElementById('player2Wins');
 const toggleThemeButton = document.getElementById('toggleTheme');
 const tournamentModeToggle = document.getElementById('tournamentModeToggle');
 const boardElement = document.getElementById('tic-tac-toe-board');
-let isPlayer1Turn = true; // Переменная для отслеживания первого хода (по умолчанию игрок 1)
+let isPlayer1Turn = true; // Переменная для отслеживания первого хода 
 
-// Выбор режима победы
+
+// Обработчик изменений для выбора режима победы
 winModeSelect.addEventListener('change', (event) => {
-  winMode = parseInt(event.target.value);
-  player1Wins = 0;
+  winMode = parseInt(event.target.value);  // Обновляение режим победы
+  player1Wins = 0;  // Сброс победы игроков
   player2Wins = 0;
   player1WinsElement.innerText = player1Wins;
   player2WinsElement.innerText = player2Wins;
-  resetGamebutton(); // Сбрасываем игру при изменении режима побед
+  resetGamebutton(); // Сбрас игры при изменении режима побед
 });
-// Кнопка "Reset"
+
+// Обработчик для кнопки сброса
 resetButton.addEventListener('click', () => {
   player1Wins = 0;
   player2Wins = 0;
@@ -37,7 +39,8 @@ resetButton.addEventListener('click', () => {
   player2WinsElement.innerText = player2Wins;
   resetGamebutton();
 });
-// Изменение размера поля
+
+// Обработчик для изменения размера поля
 boardSizeSelect.addEventListener('change', (event) => {
   boardSize = parseInt(event.target.value);
   player1Wins = 0;
@@ -48,53 +51,59 @@ boardSizeSelect.addEventListener('change', (event) => {
   resetGamebutton();
 });
 
+// Функция для создания игрового поля
 function createBoard() {
   console.log('createBoard вызвана');
-  boardElement.innerHTML = ''; // Очищаем текущее поле
+  boardElement.innerHTML = ''; // Очистка текущего поле
 
-  // Устанавливаем адаптивные размеры сетки
+  //  адаптивные размеры сетки
   boardElement.style.gridTemplateColumns = `repeat(${boardSize}, 1fr)`;
   boardElement.style.gridTemplateRows = `repeat(${boardSize}, 1fr)`;
 
-  //gameBoard = Array(boardSize * boardSize).fill('');
+  // Очистить массив поля, если его размер изменился
   console.log('gameBoard',  gameBoard);
   while (gameBoard.length < boardSize * boardSize) {
     gameBoard = Array(boardSize * boardSize).fill('');
   }
-
+// Заполнение поля ячейками
   for (let i = 0; i < boardSize * boardSize; i++) {
     const cell = document.createElement('div');
     cell.classList.add('cell');
 
-    // Добавляем уникальный ID для каждой ячейки
+    // уникальный ID для каждой ячейки
     cell.id = `cell-${i + 1}`;
+    // Заполнение ячейки текущим состоянием
     cell.innerText = gameBoard[i];
     
-    // Добавляем обработчик кликов
+    // обработчик кликов
     cell.addEventListener('click', cellClicked);
     
-    // Добавляем ячейку в поле
+    // Добавление ячейки в поле
     boardElement.appendChild(cell);
   }
 
-  // Адаптируем размеры ячеек
+  // Адаптация
   resizeBoard();
 }
+
+// Функция для изменения размера поля в зависимости от экрана
 function resizeBoard() {
-  const boardWidth = Math.min(window.innerWidth, window.innerHeight) * 0.9; // Размер поля 90% от меньшей стороны экрана
+  // Размер поля 90% от меньшей стороны экрана
+  const boardWidth = Math.min(window.innerWidth, window.innerHeight) * 0.9; 
   boardElement.style.width = `${boardWidth}px`;
   boardElement.style.height = `${boardWidth}px`;
 }
+// Обработчик изменения размера окна
 window.addEventListener('resize', resizeBoard);
 
-
+// Функция для обработки хода игрока
 function handlePlayerTurn(clickedCellIndex) {
   if (gameBoard[clickedCellIndex] !== '' || !gameActive) {
-    return;
+    return; // Если ячейка уже занята или игра завершена, не делаем ход
   }
 
   // Сохранение хода игрока
-  const symbol = currentPlayer === 'Player 1' ? 'X' : 'O';
+  const symbol = currentPlayer === 'Player 1' ? 'X' : 'O'; // Определение символа
   gameBoard[clickedCellIndex] = symbol;
 
   checkForWinOrDraw(); // Проверка условий победы/ничьей
@@ -103,16 +112,22 @@ function handlePlayerTurn(clickedCellIndex) {
 }
 
 
-
+// Функция для обработки клика по ячейке
 function cellClicked(clickedCellEvent) {
+  // Получание ячейки, по которой кликнули
   const clickedCell = clickedCellEvent.target;
+  // Определение индекса ячейки
   const clickedCellIndex = parseInt(clickedCell.id.replace('cell-', '')) - 1;
 
+   // Если ячейка занята или игра завершена, пропускаем ход
   if (gameBoard[clickedCellIndex] !== '' || !gameActive) return;
 
+  // Определение символа текущего игрока
   const symbol = currentPlayer === 'Player 1' ? 'X' : 'O';
   gameBoard[clickedCellIndex] = symbol;
+  // Проверка на победу или ничью
   checkForWinOrDraw();
+  // Переключение игрока
   currentPlayer = currentPlayer === 'Player 1' ? 'Player 2' : 'Player 1';
   updateUI();
 
@@ -127,44 +142,49 @@ function cellClicked(clickedCellEvent) {
     isTournamentMode: tournamentModeToggle.checked,
   });
 }
+
+// Функция для обновления пользовательского интерфейса
 function updateUI() {
+  // Получание все ячейки
  const cells = document.querySelectorAll('.cell');
   for (let i = 0; i < boardSize * boardSize; i++) {
+    // Обновление содержимое ячеек
     cells[i].innerText = gameBoard[i];
   }
   // Обновление сообщения о текущем игроке
   const currentPlayerDisplay = document.getElementById('currentPlayerDisplay');
   currentPlayerDisplay.innerText = `Current Player: ${currentPlayer}`;
 }
-// Проверка на победу или ничью
 
+// Функция для проверки условий победы или ничьей
 function checkForWinOrDraw() {
   let roundWon = false;
 
+  // возможные условия для победы
   const winConditions = generateWinConditions();
   const currentSymbol = currentPlayer === 'Player 1' ? 'X' : 'O'; // Символ текущего игрока
 
   // Проверка условий победы
   for (let condition of winConditions) {
       if (condition.every(index => gameBoard[index] === currentSymbol)) {
+        // Победа, если все ячейки в линии содержат одинаковый символ
           roundWon = true;
           break;
       }
   }
-
   if (roundWon) {
       announceWinner(currentPlayer); // Объявляем победителя
-      gameActive = false;
+      gameActive = false;  // Завершаем игру
       return;
   }
-
   // Проверка на ничью: если нет доступных ходов и никто не может победить
   if (!gameBoard.includes('') && !canWin('X', gameBoard) && !canWin('O', gameBoard)) {
-      announceDraw();
+      announceDraw(); // Объявляем ничью
   }
 }
 
-/// Генерация условий победы
+
+// Функция для генерации возможных условий для победы (горизонтали, вертикали, диагонали)
 function generateWinConditions() {
   const conditions = [];
 
@@ -191,29 +211,23 @@ function isDrawPredicted() {
   if (checkImmediateWin() || !gameBoard.includes('')) {
     return false;
   }
-
   // Запускаем проверку для текущей позиции
   return !canWin(currentPlayer, gameBoard);
 }
-
 function canWin(player, board) {
   const winConditions = generateWinConditions();
-
   for (let condition of winConditions) {
       const hasPotential = condition.every(index => 
           board[index] === player || board[index] === '' // Проверка доступности для победы
       );
-
       if (hasPotential) {
           const tempBoard = [...board];
           for (let index of condition) {
               if (tempBoard[index] === '') tempBoard[index] = player; // Пробуем поставить символ
           }
-
           if (checkImmediateWin(tempBoard)) return true;
       }
   }
-
   return false;
 }
 
@@ -227,9 +241,10 @@ function checkImmediateWin(board = gameBoard) {
   }
   return false;
 }
+
+
 function announceWinner(player) {
   messageElement.innerText = `${player} Wins!`;
-
   if (player === 'Player 1') {
     player1Wins++;
     player1WinsElement.innerText = player1Wins;
@@ -237,7 +252,6 @@ function announceWinner(player) {
     player2Wins++;
     player2WinsElement.innerText = player2Wins;
   }
-
   // Если один из игроков достиг победного счета в турнире
   if (player1Wins >= winMode || player2Wins >= winMode) {
     // Показываем окно с результатами
