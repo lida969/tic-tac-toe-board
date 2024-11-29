@@ -1,35 +1,35 @@
 import { saveGame, loadGame } from '../jsonbin.js'; // Импорт функций
 
-let currentPlayer = 'Player 2';
-let gameBoard = [];
-let gameActive = true;
-let player1Wins = 0;
-let player2Wins = 0;
-let winMode = 1; // Default to "first to 1 win"
-let boardSize = 3; // Default board size is 3x3
+let currentPlayer = 'Player 2'; // Переменная для отслеживания текущего игрока
+let gameBoard = []; // Массив для хранения состояния игрового поля
+let gameActive = true; // Флаг для состояния игры
+let player1Wins = 0; // Счёт побед игрока 1
+let player2Wins = 0; // Счёт побед игрока 2
+let winMode = 1; // Режим победы (по умолчанию "до 1 победы")
+let boardSize = 3; // Размер игрового поля (по умолчанию 3x3)
 
-// Получаем ссылки на элементы
-const winModeSelect = document.getElementById('winMode');
-const boardSizeSelect = document.getElementById('boardSize');
-const resetButton = document.getElementById('resetButton');
-const messageElement = document.getElementById('gameMessage');
-const player1WinsElement = document.getElementById('player1Wins');
-const player2WinsElement = document.getElementById('player2Wins');
-const toggleThemeButton = document.getElementById('toggleTheme');
-const tournamentModeToggle = document.getElementById('tournamentModeToggle');
-const boardElement = document.getElementById('tic-tac-toe-board');
+// Получение ссылок на элементы управления
+const winModeSelect = document.getElementById('winMode');  // Элемент выбора режима победы
+const boardSizeSelect = document.getElementById('boardSize'); // Элемент выбора размера поля
+const resetButton = document.getElementById('resetButton'); // Кнопка сброса игры
+const messageElement = document.getElementById('gameMessage'); // Элемент для отображения сообщений
+const player1WinsElement = document.getElementById('player1Wins'); // Элемент для счёта игрока 1
+const player2WinsElement = document.getElementById('player2Wins'); // Элемент для счёта игрока 2
+const toggleThemeButton = document.getElementById('toggleTheme'); // Кнопка переключения темы
+const tournamentModeToggle = document.getElementById('tournamentModeToggle'); // Переключатель режима турнира
+const boardElement = document.getElementById('tic-tac-toe-board'); // Элемент игрового поля
 let isPlayer1Turn = true; // Переменная для отслеживания первого хода (по умолчанию игрок 1)
 
 let aiLevel = "random"; // Уровень ИИ: random, hard (Minimax)
 
-// Выбор режима победы
+// Обработчик изменения режима победы
 winModeSelect.addEventListener('change', (event) => {
-  winMode = parseInt(event.target.value);
+  winMode = parseInt(event.target.value); // Устанавливается новый режим победы
   player1Wins = 0;
   player2Wins = 0;
   player1WinsElement.innerText = player1Wins;
   player2WinsElement.innerText = player2Wins;
-  resetGamebutton(); // Сбрасываем игру при изменении режима побед
+  resetGamebutton(); // Перезапуск игры
 });
 // Кнопка "Reset"
 resetButton.addEventListener('click', () => {
