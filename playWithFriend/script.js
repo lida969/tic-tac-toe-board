@@ -207,57 +207,73 @@ function generateWinConditions() {
 }
 
 function isDrawPredicted() {
-  // Если уже есть победитель или поле полностью заполнено
+  // Проверяется, существует ли уже победитель или заполнено ли игровое поле полностью
   if (checkImmediateWin() || !gameBoard.includes('')) {
+     // Возвращается false, если ничья невозможна
     return false;
   }
-  // Запускаем проверку для текущей позиции
+ // Выполняется проверка на возможность ничьей для текущего состояния игры
   return !canWin(currentPlayer, gameBoard);
 }
+
+
 function canWin(player, board) {
+   // Генерируются все возможные условия для победы
   const winConditions = generateWinConditions();
   for (let condition of winConditions) {
+     // Проверяется, являются ли все ячейки в условии либо доступными, либо уже принадлежащими игроку
       const hasPotential = condition.every(index => 
           board[index] === player || board[index] === '' // Проверка доступности для победы
       );
       if (hasPotential) {
+        // Копируется текущее состояние игрового поля
           const tempBoard = [...board];
           for (let index of condition) {
-              if (tempBoard[index] === '') tempBoard[index] = player; // Пробуем поставить символ
+             // Выполняется временная установка символа игрока в доступные ячейки
+              if (tempBoard[index] === '') tempBoard[index] = player; 
           }
+        // Проверяется, приводит ли это к мгновенной победе
           if (checkImmediateWin(tempBoard)) return true;
       }
   }
+    // Возвращается false, если победа невозможна для игрока
   return false;
 }
 
 function checkImmediateWin(board = gameBoard) {
+   // Генерируются условия победы
   const winConditions = generateWinConditions();
 
   for (let condition of winConditions) {
+     // Проверяется, заполнены ли все ячейки условия символами текущего игрока
     if (condition.every(index => board[index] === currentPlayer)) {
-      return true;
+      return true; // Возвращается true, если победа достигнута
     }
   }
+   // Возвращается false, если победа не найдена
   return false;
 }
 
 
 function announceWinner(player) {
+   // Отображается сообщение о победе игрока
   messageElement.innerText = `${player} Wins!`;
   if (player === 'Player 1') {
+    // Увеличивается счет для игрока 1
     player1Wins++;
     player1WinsElement.innerText = player1Wins;
   } else {
     player2Wins++;
     player2WinsElement.innerText = player2Wins;
   }
-  // Если один из игроков достиг победного счета в турнире
+   // Проверяется, достиг ли кто-либо из игроков победного количества очков в турнире
   if (player1Wins >= winMode || player2Wins >= winMode) {
     // Показываем окно с результатами
     showTournamentResult(player);
+     // Игра завершается
     gameActive = false;
   } else {
+    // Осуществляется сброс текущей игры через 2 секунды
     setTimeout(() => {
       resetGamebutton();
       // Обнуляем состояние игры
@@ -277,23 +293,25 @@ function announceWinner(player) {
 
 
 function showTournamentResult(winner) {
-  // Обновляем текст в модальном окне
-  const isTournamentMode = tournamentModeToggle.checked; // галочка для режима турнира
+  // Устанавливается текстовое сообщение в модальном окне в зависимости от режима
+  const isTournamentMode = tournamentModeToggle.checked; // Проверяется, включен ли режим турнира
 
   if (isTournamentMode) {
+    // В модальном окне указывается победитель и текущий счет
     const tournamentWinner = document.getElementById('tournamentWinner');
     const tournamentScore = document.getElementById('tournamentScore');
     
     tournamentWinner.innerText = `Победил ${winner}`;
     tournamentScore.innerText = `Счет: ${player1Wins}:${player2Wins}`;
 
-    // Показываем модальное окно
+    // Модальное окно становится видимым
     document.getElementById('tournamentResultModal').style.display = 'flex';
   }
   else {
     setTimeout(() => resetGamebutton(), 2000);
   
   }
+   // Устанавливается обработчик для кнопки закрытия модального окна
   const closeModalButton = document.getElementById('closeModalButton');
   if (closeModalButton) {
         closeModalButton.addEventListener('click', closeTournamentResult);
@@ -301,10 +319,10 @@ function showTournamentResult(winner) {
 }
 
 function closeTournamentResult() {
-  // Закрываем модальное окно
+  // Скрывается модальное окно результатов турнира
   document.getElementById('tournamentResultModal').style.display = 'none';
 
-   //Сбрасываем игру и счетчики
+  // Обнуляются счетчики побед игроков
   player1Wins = 0;
   player2Wins = 0;
   player1WinsElement.innerText = player1Wins;
@@ -322,13 +340,15 @@ function closeTournamentResult() {
   });
 }
 
-// Объявление ничьей
+
 // Объявление ничьей
 function announceDraw() {
+  // Отображается сообщение о ничье
   messageElement.innerText = 'Game Draw!';
-  gameActive = false;
-
+  gameActive = false; // Игра завершается
+// Через 2 секунды сбрасывается игра
   setTimeout(() => resetGamebutton(), 2000);
+    // Сохраняется текущее состояние игры
   saveGame({
     gameBoard,
     currentPlayer,
@@ -341,16 +361,18 @@ function announceDraw() {
 }
 
 tournamentModeToggle.addEventListener('change', (event) => {
+  // Выполняется переключение между турниром и обычным режимом
   toggleTournamentMode(event.target.checked);
 });
 
 
 function toggleTournamentMode(isTournamentMode) {
+  // Изменяется видимость секций, связанных с турниром
   const scoreElements = document.getElementById('scoreSection');
   const tournamentSettings = document.getElementById('tournamentSettings');
 
   if (isTournamentMode) {
-    // Показать настройки турнира и счётчики
+    // Отображаются настройки и счетчики турнира
     scoreElements.style.display = 'block';
     tournamentSettings.style.display = 'block';
     //player1Wins = savedGameData.player1Wins || 0;
@@ -393,6 +415,7 @@ function resetGame() {
  // currentPlayer =  savedGameData.currentPlayer || 'Player 1';
   
   //gameBoard.fill('');
+  // Устанавливается первый игрок и обновляется интерфейс
   gameActive = true;
   updateUI(); // Обновление интерфейса
   messageElement.innerText = '';
@@ -410,17 +433,18 @@ function resetGame() {
 }
 
 async function initializeGame() {
-  winMode = 1; // Сбрасываем режим победы на "до 1 победы"
-  winModeSelect.value = winMode; // Устанавливаем значение в выпадающем списке
-  boardSize = 3; // Устанавливаем размер поля по умолчанию
-  boardSizeSelect.value = boardSize; // Устанавливаем размер в выпадающем списке
-  tournamentModeToggle.checked = false; // Выключаем режим турнира по умолчанию
+  // Устанавливаются параметры игры по умолчанию
+  winMode = 1; // Количество побед до окончания матча
+  winModeSelect.value = winMode; //  значение в выпадающем списке
+  boardSize = 3; // Размер игрового поля
+  boardSizeSelect.value = boardSize; 
+  tournamentModeToggle.checked = false; // Режим турнира отключен по умолчанию
   
-  // Загружаем сохранённые данные
+   // Загружаются данные из сохраненного состояния
   const savedGameData = await loadGame();
   console.log('Loaded game data:', savedGameData);
   if (savedGameData) {
-    // Восстановите данные из сохранённого состояния
+    // Восстанавливаются параметры и состояние из сохранения
     gameBoard = savedGameData.gameBoard || Array(boardSize * boardSize).fill('');
     currentPlayer = savedGameData.currentPlayer || 'Player 1';
     player1Wins = savedGameData.player1Wins || 0;
@@ -429,7 +453,7 @@ async function initializeGame() {
     winMode = savedGameData.winMode || 1;
     const isTournamentMode = savedGameData.isTournamentMode || false;
     tournamentModeToggle.checked = isTournamentMode;
-    // Обновляем интерфейс
+    
     winModeSelect.value = winMode;
     boardSizeSelect.value = boardSize;
     player1WinsElement.innerText = player1Wins;
@@ -437,7 +461,7 @@ async function initializeGame() {
     toggleTournamentMode(isTournamentMode);
   }
   else {
-    // Если нет сохраненных данных, инициализируем начальные значения
+     // Если сохранений нет, инициализируются начальные параметры
     player1Wins = 0;
     player2Wins = 0;
     player1WinsElement.innerText = player1Wins;
@@ -451,14 +475,15 @@ async function initializeGame() {
 }
 
 function resetGamebutton() {
+  // Переключается начальный игрок
   isPlayer1Turn = !isPlayer1Turn;
   currentPlayer = isPlayer1Turn ? 'Player 1' : 'Player 2';
-  
+  // Очищается игровое поле и обновляется интерфейс
   gameBoard = Array(boardSize * boardSize).fill('');
   gameActive = true;
   messageElement.innerText = '';
   const isTournamentMode = tournamentModeToggle.checked;
-  createBoard(); // Пересоздайте игровое поле
+  createBoard(); 
   updateUI(); 
   saveGame({
     gameBoard,
@@ -469,6 +494,7 @@ function resetGamebutton() {
     boardSize,
     isTournamentMode: tournamentModeToggle.checked,
   });
+  // Обнуляются счетчики, если турнирный режим выключен
    if (!isTournamentMode) {
     player1Wins = 0;
     player2Wins = 0;
